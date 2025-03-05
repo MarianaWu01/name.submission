@@ -18,14 +18,11 @@
                 document.getElementById("status").innerText = "Please enter a name.";
                 return;
             }
-
-
-        fetch("https://script.google.com/macros/s/AKfycbxRq8g0r6KRYODgFRUgNyjgSETIwHeoLan6MHf0W9YXqVe57HhAGb264hnaF3AK4oL-/exec", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: name })  // 发送 JSON 数据
-        })
-
+            fetch("https://script.google.com/macros/s/AKfycbxRq8g0r6KRYODgFRUgNyjgSETIwHeoLan6MHf0W9YXqVe57HhAGb264hnaF3AK4oL-/exec", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: name })  // 发送 JSON 数据
+            })
             .then(response => response.text())
             .then(data => document.getElementById("status").innerText = data)
             .catch(error => document.getElementById("status").innerText = "Error submitting name.");
