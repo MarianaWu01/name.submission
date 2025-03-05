@@ -18,7 +18,7 @@
                 document.getElementById("status").innerText = "Please enter a name.";
                 return;
             }
-            fetch("YOUR_GOOGLE_SCRIPT_URL", {
+            fetch("https://script.google.com/macros/s/AKfycbxRq8g0r6KRYODgFRUgNyjgSETIwHeoLan6MHf0W9YXqVe57HhAGb264hnaF3AK4oL-/exec", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: "name=" + encodeURIComponent(name)
