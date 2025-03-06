@@ -6,27 +6,61 @@
     <title>Name Submission</title>
 </head>
 <body>
-    <h2>Enter Your Name</h2>
+    <h2>Enter Your Information</h2>
+
+    <!-- Name Input -->
+    <label for="nameInput">Your Name:</label>
     <input type="text" id="nameInput" placeholder="Your Name">
-    <button onclick="submitName()">Submit</button>
+
+    <!-- Email Input -->
+    <label for="emailInput">Your Email:</label>
+    <input type="email" id="emailInput" placeholder="Your Email">
+
+    <!-- Tel Input -->
+    <label for="telInput">Your Tel:</label>
+    <input type="tel" id="telInput" placeholder="Your Phone Number">
+
+    <!-- Submit Button -->
+    <button onclick="submitData()">Submit</button>
+
     <p id="status"></p>
 
     <script>
-        function submitName() {
+        function submitData() {
+            // Get values from input fields
             var name = document.getElementById("nameInput").value;
-            if (name.trim() === "") {
-                document.getElementById("status").innerText = "Please enter a name.";
+            var email = document.getElementById("emailInput").value;
+            var tel = document.getElementById("telInput").value;
+
+            // Validate the input fields
+            if (name.trim() === "" || email.trim() === "" || tel.trim() === "") {
+                document.getElementById("status").innerText = "Please fill out all fields.";
                 return;
             }
-            fetch("https://script.google.com/macros/s/AKfycbxRq8g0r6KRYODgFRUgNyjgSETIwHeoLan6MHf0W9YXqVe57HhAGb264hnaF3AK4oL-/exec", {
+
+            // Send data to the Google Apps Script Web App
+            fetch("https://script.google.com/macros/s/AKfycbwoX9OOOwTf3a0u9OWY0e0kC5b-NxYHQWfO0wtopqZ55Rri9CqwsasTXC0ySBLmLVEz/exec", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name: name })  // 发送 JSON 数据
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    tel: tel
+                })
             })
             .then(response => response.text())
-            .then(data => document.getElementById("status").innerText = data)
-            .catch(error => document.getElementById("status").innerText = "Error submitting name.");
+            .then(data => {
+                console.log("Server Response:", data);
+                document.getElementById("status").innerText = "Submission Successful!";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("status").innerText = "There was an error with your submission.";
+            });
         }
     </script>
 </body>
 </html>
+
+
+
