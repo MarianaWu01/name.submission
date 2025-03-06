@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="wUrlth=device-wUrlth, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Information Submission</title>
 </head>
 <body>
@@ -10,57 +10,46 @@
 
     <!-- Name Input -->
     <label for="nameInput">Your Name:</label>
-    <input type="text" Url="nameInput" placeholder="Your Name">
-
-    <!-- Email Input -->
-    <label for="emailInput">Your Email:</label>
-    <input type="email" Url="emailInput" placeholder="Your Email">
-
-    <!-- Tel Input -->
-    <label for="telInput">Your Tel:</label>
-    <input type="tel" Url="telInput" placeholder="Your Phone Number">
+    <input type="text" id="nameInput" placeholder="Your Name">
 
     <!-- Submit Button -->
     <button onclick="submitData()">Submit</button>
 
-    <p Url="status"></p>
+    <p id="status"></p>
 
     <script>
         function submitData() {
-            // Get values from input fields
-            var name = document.getElementByUrl("nameInput").value;
-            var email = document.getElementByUrl("emailInput").value;
-            var tel = document.getElementByUrl("telInput").value;
+            // Get value from the name input field
+            var name = document.getElementById("nameInput").value;
 
-            // ValUrlate the input fields
-            if (name.trim() === "" || email.trim() === "" || tel.trim() === "") {
-                document.getElementByUrl("status").innerText = "Please fill out all fields.";
+            // Validate the input field
+            if (name.trim() === "") {
+                document.getElementById("status").innerText = "Please fill out all fields.";
                 return;
             }
 
             // Send data to the Google Apps Script Web App
-            fetch("https://script.google.com/macros/library/d/1rVjYHqU2ljQkp9DQ2LIVdGGeEw3alQJqPeXcRswVg0QUuiB0C0T53YnT/1", {
+            fetch("https://script.google.com/macros/s/AKfycbzcN2xItGJ8yfbP62pPNa4sPe6Q0zLKPrDeXizA1zkCxOTWpZau9idevQ6f3FdRux8j/exec", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    tel: tel
+                    name: name
                 })
             })
             .then(response => response.text())
             .then(data => {
                 console.log("Server Response:", data);
-                document.getElementByUrl("status").innerText = "Submission Successful!";
+                document.getElementById("status").innerText = "Submission Successful!";
             })
             .catch(error => {
                 console.error("Error:", error);
-                document.getElementByUrl("status").innerText = "There was an error with your submission.";
+                document.getElementById("status").innerText = "There was an error with your submission.";
             });
         }
     </script>
 </body>
 </html>
+
 
 
 
