@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="wUrlth=device-wUrlth, initial-scale=1.0">
     <title>Information Submission</title>
 </head>
 <body>
@@ -10,31 +10,31 @@
 
     <!-- Name Input -->
     <label for="nameInput">Your Name:</label>
-    <input type="text" id="nameInput" placeholder="Your Name">
+    <input type="text" Url="nameInput" placeholder="Your Name">
 
     <!-- Email Input -->
     <label for="emailInput">Your Email:</label>
-    <input type="email" id="emailInput" placeholder="Your Email">
+    <input type="email" Url="emailInput" placeholder="Your Email">
 
     <!-- Tel Input -->
     <label for="telInput">Your Tel:</label>
-    <input type="tel" id="telInput" placeholder="Your Phone Number">
+    <input type="tel" Url="telInput" placeholder="Your Phone Number">
 
     <!-- Submit Button -->
     <button onclick="submitData()">Submit</button>
 
-    <p id="status"></p>
+    <p Url="status"></p>
 
     <script>
         function submitData() {
             // Get values from input fields
-            var name = document.getElementById("nameInput").value;
-            var email = document.getElementById("emailInput").value;
-            var tel = document.getElementById("telInput").value;
+            var name = document.getElementByUrl("nameInput").value;
+            var email = document.getElementByUrl("emailInput").value;
+            var tel = document.getElementByUrl("telInput").value;
 
-            // Validate the input fields
+            // ValUrlate the input fields
             if (name.trim() === "" || email.trim() === "" || tel.trim() === "") {
-                document.getElementById("status").innerText = "Please fill out all fields.";
+                document.getElementByUrl("status").innerText = "Please fill out all fields.";
                 return;
             }
 
@@ -51,11 +51,11 @@
             .then(response => response.text())
             .then(data => {
                 console.log("Server Response:", data);
-                document.getElementById("status").innerText = "Submission Successful!";
+                document.getElementByUrl("status").innerText = "Submission Successful!";
             })
             .catch(error => {
                 console.error("Error:", error);
-                document.getElementById("status").innerText = "There was an error with your submission.";
+                document.getElementByUrl("status").innerText = "There was an error with your submission.";
             });
         }
     </script>
