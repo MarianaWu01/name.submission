@@ -3,59 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Information Submission</title>
+    <title>Simple Form</title>
 </head>
 <body>
-    <h2>Enter Your Information</h2>
-
-    <!-- Name Input -->
-    <label for="nameInput">Your Name:</label>
-    <input type="text" id="nameInput" placeholder="Your Name">
-
-    <!-- Submit Button -->
-    <button id="submitButton" onclick="submitData()">Submit</button>
-
-    <p id="status"></p>
-
-    <script>
-        function submitData() {
-            var name = document.getElementById("nameInput").value.trim();  // 获取用户输入的姓名
-            var statusText = document.getElementById("status");  // 获取显示状态信息的元素
-            var submitButton = document.getElementById("submitButton");  // 获取提交按钮元素
-
-            // Validate input
-            if (name === "") {
-                statusText.innerText = "Please enter your name.";  // 如果没有输入姓名，提示用户
-                return;
-            }
-
-            // Disable button to prevent duplicate submissions
-            submitButton.disabled = true;  // 禁用按钮以防止重复提交
-            statusText.innerText = "Submitting...";  // 显示提交中提示
-
-            // Send data to Google Apps Script
-            fetch("https://script.google.com/macros/s/AKfycbwxQcOFmEQjSX10U_QJ9YIj2H8deoj9rG-df6FkY2tK8F79PsdtMczQO2ox4T0z0f5i/exec", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name: name })  // 将姓名作为 JSON 数据发送到 Apps Script
-            })
-            .then(response => response.json())  // 解析返回的 JSON 数据
-            .then(data => {
-                if (data.status === "success") {
-                    statusText.innerText = "Submission Successful!";  // 提交成功，显示成功信息
-                } else {
-                    statusText.innerText = "Error: " + (data.message || "Unknown error.");  // 如果出错，显示错误信息
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);  // 打印错误信息到控制台
-                statusText.innerText = "Submission failed. Please try again.";  // 如果请求失败，显示失败信息
-            })
-            .finally(() => {
-                submitButton.disabled = false;  // 请求完成后重新启用按钮
-            });
-        }
-    </script>
+    <h1>Enter your Info</h1>
+    <form action="#">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
 
