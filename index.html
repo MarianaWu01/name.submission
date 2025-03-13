@@ -13,43 +13,48 @@
     <input type="text" id="nameInput" placeholder="Your Name">
 
     <!-- Submit Button -->
-    <button onclick="submitData()">Submit</button>
+    <button id="submitButton" onclick="submitData()">Submit</button>
 
     <p id="status"></p>
 
     <script>
         function submitData() {
-            // Get value from the name input field
-            var name = document.getElementById("nameInput").value;
+            var name = document.getElementById("nameInput").value.trim();
+            var statusText = document.getElementById("status");
+            var submitButton = document.getElementById("submitButton");
 
-            // Validate the input field
-            if (name.trim() === "") {
-                document.getElementById("status").innerText = "Please fill out all fields.";
+            // Validate input
+            if (name === "") {
+                statusText.innerText = "Please enter your name.";
                 return;
             }
 
-            // Send data to the Google Apps Script Web App
-            fetch("https://script.google.com/macros/s/AKfycbzcN2xItGJ8yfbP62pPNa4sPe6Q0zLKPrDeXizA1zkCxOTWpZau9idevQ6f3FdRux8j/exec", {
+            // Disable button to prevent duplicate submissions
+            submitButton.disabled = true;
+            statusText.innerText = "Submitting...";
+
+            // Send data to Google Apps Script
+            fetch("https://script.google.com/macros/s/AKfycbwxQcOFmEQjSX10U_QJ9YIj2H8deoj9rG-df6FkY2tK8F79PsdtMczQO2ox4T0z0f5i/exec", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: name
-                })
+                body: JSON.stringify({ name: name })
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                console.log("Server Response:", data);
-                document.getElementById("status").innerText = "Submission Successful!";
+                if (data.status === "success") {
+                    statusText.innerText = "Submission Successful!";
+                } else {
+                    statusText.innerText = "Error: " + (data.message || "Unknown error.");
+                }
             })
             .catch(error => {
                 console.error("Error:", error);
-                document.getElementById("status").innerText = "There was an error with your submission.";
+                statusText.innerText = "Submission failed. Please try again.";
+            })
+            .finally(() => {
+                submitButton.disabled = false; // Re-enable button after request
             });
         }
     </script>
 </body>
 </html>
-
-
-
-
