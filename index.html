@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,9 @@
             const message = document.getElementById("successMessage");
 
             if (name.trim() !== "") {
+                // 调用 Google Apps Script 函数将数据保存到 Google Sheets
+                google.script.run.appendToSheet(name);
+
                 message.textContent = "Your submission was successful.";
                 message.style.color = "green";  
             }
@@ -27,3 +30,4 @@
     <p id="successMessage"></p>
 </body>
 </html>
+
