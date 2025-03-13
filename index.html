@@ -6,9 +6,15 @@
     <title>Simple Form</title>
     <script>
         function handleSubmit(event) {
-            event.preventDefault();  // 防止表单默认提交
+            event.preventDefault();  // 阻止默认提交
             const name = document.getElementById("name").value;
-            alert("Hello, " + name + "! Your submission was successful.");
+            const message = document.getElementById("successMessage");
+
+            // 只有当用户输入名字时，才显示成功消息
+            if (name.trim() !== "") {
+                message.textContent = "Your submission was successful.";
+                message.style.color = "green";  // 让文字变成绿色
+            }
         }
     </script>
 </head>
@@ -19,5 +25,6 @@
         <input type="text" id="name" name="name" required>
         <button type="submit">Submit</button>
     </form>
+    <p id="successMessage"></p> <!-- 这里用于显示成功消息 -->
 </body>
 </html>
