@@ -3,48 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>提交信息到 Google Sheets</title>
+    <title>Google Apps Script 表单提交</title>
 </head>
 <body>
-    <h2>填写信息</h2>
-    <form id="submitForm">
-        <input type="text" id="name" placeholder="姓名" required><br>
-        <input type="tel" id="tel" placeholder="电话" required><br>
-        <input type="email" id="email" placeholder="邮箱" required><br>
+
+    <h2>提交信息</h2>
+    
+    <!-- 表单 -->
+    <form id="contactForm">
+        <label for="name">姓名:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">邮箱:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="message">留言:</label>
+        <textarea id="message" name="message" required></textarea><br><br>
+
         <button type="submit">提交</button>
     </form>
 
-    <script>
-        document.getElementById("submitForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            
-            let data = {
-                name: document.getElementById("name").value,
-                tel: document.getElementById("tel").value,
-                email: document.getElementById("email").value
-            };
+    <div id="response"></div>
 
-            fetch("https://script.google.com/macros/s/AKfycbxc95jsUpf1Vk3NMqEm8ynIus_AIq7rtCkwxe2g_8PqiXIP2RFjPuWwfbK_4izpPNbL/exec", {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: { "Content-Type": "application/json" }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return Promise.reject('提交失败！' + response.status);
+    <script>
+        // Google Apps Script 部署的 Web App URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbysTkbhkKZWt10OuP0p2tBUd0WE9bTbb_cPGL3rqr3OUZBGr5OhiGOSgQjek5_NqXx_8Q/exec';
+
+        // 获取表单
+        const form = document.getElementById('contactForm');
+
+        // 监听表单提交
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // 阻止默认提交行为
+
+            // 获取表单数据
+            const formData = new FormData(form);
+
+            // 将数据转换为 URL 编码格式
+            const data = new URLSearchParams();
+            for (const pair of formData.entries()) {
+                data.append(pair[0], pair[1]);
+            }
+
+            // 发送 POST 请求
+            fetch(scriptURL, {
+                method: 'POST',
+                body: data, // 发送 URL 编码的表单数据
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
                 }
-                return response.text();
             })
-            .then(data => {
-                alert("提交成功！");
-                // 清空表单
-                document.getElementById("submitForm").reset();
+            .then(response => response.text()) // 解析返回数据
+            .then(result => {
+                document.getElementById('response').textContent = result; // 显示返回消息
             })
             .catch(error => {
-                alert(error);
+                document.getElementById('response').textContent = '错误: ' + error.message;
             });
         });
     </script>
+
 </body>
 </html>
 
