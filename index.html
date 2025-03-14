@@ -29,9 +29,20 @@
                 body: JSON.stringify(data),
                 headers: { "Content-Type": "application/json" }
             })
-            .then(response => response.text())
-            .then(data => alert("提交成功！"))
-            .catch(error => alert("提交失败！" + error));
+            .then(response => {
+                if (!response.ok) {
+                    return Promise.reject('提交失败！' + response.status);
+                }
+                return response.text();
+            })
+            .then(data => {
+                alert("提交成功！");
+                // 清空表单
+                document.getElementById("submitForm").reset();
+            })
+            .catch(error => {
+                alert(error);
+            });
         });
     </script>
 </body>
